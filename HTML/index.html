@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LYNK | Meet. Move. Lynk up.</title>
+  <meta name="description" content="LYNK is a meeting platform with built-in, gamified movement breaks that get your team up and active after every meeting.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../CSS/style.css">
+</head>
+<body>
+
+  <a class="skip-link" href="#main">Skip to main content</a>
+
+  <!-- ===== Header / Nav ===== -->
+  <header class="site-header">
+    <div class="container nav">
+      <a href="index.html" class="logo" aria-label="LYNK home">
+        <svg class="logo-mark" width="36" height="36" viewBox="0 0 40 40" aria-hidden="true">
+          <defs>
+            <linearGradient id="logoGradLeft" gradientUnits="userSpaceOnUse" x1="1.5" y1="0" x2="26.5" y2="0">
+              <stop offset="0" stop-color="#0FCB95"/>
+              <stop offset="1" stop-color="#17A07C"/>
+            </linearGradient>
+            <linearGradient id="logoGradRight" gradientUnits="userSpaceOnUse" x1="13.5" y1="0" x2="38.5" y2="0">
+              <stop offset="0" stop-color="#17967A"/>
+              <stop offset="1" stop-color="#1B735D"/>
+            </linearGradient>
+          </defs>
+          <circle cx="14" cy="20" r="10" fill="none" stroke="url(#logoGradLeft)" stroke-width="5"/>
+          <circle cx="26" cy="20" r="10" fill="none" stroke="url(#logoGradRight)" stroke-width="5"/>
+        </svg>
+        <span class="logo-text">LYNK</span>
+      </a>
+
+      <nav class="nav-links" aria-label="Main">
+        <a href="#features">Features</a>
+        <a href="#how-it-works">How it works</a>
+        <a href="#leaderboard">Leaderboard</a>
+        <a href="#inclusive">Inclusivity</a>
+      </nav>
+
+      <div class="nav-actions">
+        <a href="#" class="btn btn-ghost">Log in</a>
+        <a href="meeting.html" class="btn btn-primary">Start a meeting</a>
+      </div>
+    </div>
+  </header>
+
+  <main id="main">
+
+    <!-- ===== Hero ===== -->
+    <section class="hero">
+      <div class="container hero-grid">
+
+        <div class="hero-copy">
+          <p class="eyebrow">Meetings that move you</p>
+          <h1>Meet. Move.<br><span class="highlight">Lynk up.</span></h1>
+          <p class="hero-sub">
+            LYNK is video meetings with a twist: when the call ends, a quick,
+            playful movement break begins. Race your colleagues, climb the
+            leaderboard and earn real workplace rewards, all without leaving the app.
+          </p>
+
+          <div class="hero-cta">
+            <a href="meeting.html" class="btn btn-primary btn-lg">Start a meeting</a>
+            <form class="join-form" action="meeting.html" method="get">
+              <label for="join-code" class="visually-hidden">Meeting code</label>
+              <input id="join-code" name="code" type="text" placeholder="Enter meeting code" autocomplete="off">
+              <button type="submit" class="btn btn-dark">Join</button>
+            </form>
+          </div>
+
+          <ul class="hero-trust">
+            <li>Live captions on every call</li>
+            <li>Games for every ability</li>
+            <li>Free for small teams</li>
+          </ul>
+        </div>
+
+        <!-- Product mockup built with HTML/CSS -->
+        <div class="hero-visual" aria-hidden="true">
+          <div class="mock-window">
+            <div class="mock-bar">
+              <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+              <span class="mock-title">Weekly Team Sync</span>
+              <span class="mock-live">&#9679; Live</span>
+            </div>
+
+            <div class="mock-grid">
+              <div class="tile tile-1"><span class="avatar">AM</span><span class="tile-name">Aisha</span></div>
+              <div class="tile tile-2"><span class="avatar">JL</span><span class="tile-name">Jordan</span></div>
+              <div class="tile tile-3"><span class="avatar">SK</span><span class="tile-name">Sam</span></div>
+              <div class="tile tile-4"><span class="avatar">TR</span><span class="tile-name">Taylor</span></div>
+            </div>
+
+            <div class="mock-caption">Live captions: "Great work everyone, see you at the break!"</div>
+
+            <div class="mock-controls">
+              <span class="ctrl"></span><span class="ctrl"></span><span class="ctrl"></span>
+              <span class="ctrl ctrl-end"></span>
+            </div>
+          </div>
+
+          <div class="float-card float-break">
+            <p class="float-label">Movement break</p>
+            <p class="float-title">Scavenger Hunt</p>
+            <p class="float-text">Find something blue. Go!</p>
+            <div class="countdown">00:45</div>
+          </div>
+
+          <div class="float-card float-score">
+            <p class="float-label">+120 pts</p>
+            <p class="float-text">You placed 2nd!</p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ===== Features ===== -->
+    <section id="features" class="section">
+      <div class="container">
+        <div class="section-head">
+          <p class="eyebrow">Everything in one place</p>
+          <h2>A meeting platform that looks after your whole team</h2>
+          <p class="section-sub">
+            All the video and chat tools you expect, plus the thing your desk
+            job has been missing: a reason to get up.
+          </p>
+        </div>
+
+        <div class="card-grid">
+          <article class="card">
+            <div class="card-icon">&#127909;</div>
+            <h3>HD video meetings</h3>
+            <p>Crisp video, screen sharing and chat for teams of any size, remote or hybrid.</p>
+          </article>
+
+          <article class="card">
+            <div class="card-icon">&#127939;</div>
+            <h3>Gamified movement breaks</h3>
+            <p>Short, playful challenges pop up right after your meeting ends. No extra apps, no setup.</p>
+          </article>
+
+          <article class="card">
+            <div class="card-icon">&#127942;</div>
+            <h3>Live leaderboards</h3>
+            <p>See how you stack up against your colleagues the moment each round finishes.</p>
+          </article>
+
+          <article class="card">
+            <div class="card-icon">&#127873;</div>
+            <h3>Workplace rewards</h3>
+            <p>Your placement earns perks that count towards rewards like coupons from your employer.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== How it works ===== -->
+    <section id="how-it-works" class="section section-tint">
+      <div class="container">
+        <div class="section-head">
+          <p class="eyebrow">How it works</p>
+          <h2>From meeting to movement in three steps</h2>
+        </div>
+
+        <ol class="steps">
+          <li class="step">
+            <span class="step-num">1</span>
+            <h3>Meet</h3>
+            <p>Host or join a call like you always do. LYNK handles the video, audio and captions.</p>
+          </li>
+          <li class="step">
+            <span class="step-num">2</span>
+            <h3>Move</h3>
+            <p>When the meeting wraps up, a countdown starts and everyone plays a quick challenge, like finding a household object and snapping a photo.</p>
+          </li>
+          <li class="step">
+            <span class="step-num">3</span>
+            <h3>Link up</h3>
+            <p>The fastest time wins. Scores hit the leaderboard and your rewards add up.</p>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- ===== Leaderboard preview ===== -->
+    <section id="leaderboard" class="section section-dark">
+      <div class="container split">
+        <div class="split-copy">
+          <p class="eyebrow eyebrow-light">Friendly competition</p>
+          <h2>Climb the leaderboard. Earn the perks.</h2>
+          <p>
+            Every challenge ends with a live leaderboard. The higher you place,
+            the more reward points you earn towards workplace perks, so a
+            three-minute scavenger hunt can end with a free coffee.
+          </p>
+          <a href="#" class="btn btn-primary">See how rewards work</a>
+        </div>
+
+        <div class="board" role="img" aria-label="Example leaderboard: Aisha first with 1 minute 12 seconds, Sam second, Jordan third">
+          <div class="board-head">
+            <span>Scavenger Hunt</span>
+            <span>Round 1</span>
+          </div>
+          <ul class="board-list">
+            <li class="board-row board-first">
+              <span class="rank">1</span>
+              <span class="board-name">Aisha M.</span>
+              <span class="board-time">1:12</span>
+              <span class="board-pts">+150</span>
+            </li>
+            <li class="board-row">
+              <span class="rank">2</span>
+              <span class="board-name">Sam K.</span>
+              <span class="board-time">1:26</span>
+              <span class="board-pts">+120</span>
+            </li>
+            <li class="board-row">
+              <span class="rank">3</span>
+              <span class="board-name">Jordan L.</span>
+              <span class="board-time">1:41</span>
+              <span class="board-pts">+90</span>
+            </li>
+            <li class="board-row">
+              <span class="rank">4</span>
+              <span class="board-name">Taylor R.</span>
+              <span class="board-time">2:03</span>
+              <span class="board-pts">+60</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Inclusivity ===== -->
+    <section id="inclusive" class="section">
+      <div class="container">
+        <div class="section-head">
+          <p class="eyebrow">Built for everyone</p>
+          <h2>If you can join the meeting, you can join the fun</h2>
+          <p class="section-sub">
+            LYNK is designed with accessibility from day one, not added as an afterthought.
+          </p>
+        </div>
+
+        <div class="card-grid card-grid-3">
+          <article class="card card-soft">
+            <div class="card-icon">&#128172;</div>
+            <h3>Live captions</h3>
+            <p>Captions for meetings and for game instructions, so deaf and hard of hearing colleagues never miss a thing.</p>
+          </article>
+
+          <article class="card card-soft">
+            <div class="card-icon">&#129489;&#8205;&#129469;</div>
+            <h3>Alternative games</h3>
+            <p>Simpler, lower-movement challenges for people with injuries or lower body disabilities, with the same rewards.</p>
+          </article>
+
+          <article class="card card-soft">
+            <div class="card-icon">&#127769;</div>
+            <h3>Calm mode</h3>
+            <p>Soothing colours, light and dark themes and a minimalist view that fades out non-essential buttons.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Final CTA ===== -->
+    <section class="cta-band">
+      <div class="container cta-inner">
+        <h2>Ready to make your next meeting move?</h2>
+        <p>Start a free meeting in seconds. No downloads needed.</p>
+        <a href="meeting.html" class="btn btn-dark btn-lg">Get started with LYNK</a>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ===== Footer ===== -->
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <div class="footer-brand">
+        <a href="index.html" class="logo" aria-label="LYNK home">
+          <svg class="logo-mark" viewBox="0 0 40 40" aria-hidden="true">
+            <circle cx="14" cy="20" r="10" fill="none" stroke="#30E4B6" stroke-width="5"/>
+            <circle cx="26" cy="20" r="10" fill="none" stroke="#A1F9CF" stroke-width="5"/>
+          </svg>
+          <span class="logo-text">LYNK</span>
+        </a>
+        <p>Meetings that move you.</p>
+      </div>
+
+      <nav class="footer-col" aria-label="Product">
+        <h4>Product</h4>
+        <a href="#features">Features</a>
+        <a href="#how-it-works">How it works</a>
+        <a href="#leaderboard">Leaderboard</a>
+      </nav>
+
+      <nav class="footer-col" aria-label="Company">
+        <h4>Company</h4>
+        <a href="#inclusive">Accessibility</a>
+        <a href="#">About</a>
+        <a href="#">Contact</a>
+      </nav>
+
+      <nav class="footer-col" aria-label="Legal">
+        <h4>Legal</h4>
+        <a href="#">Privacy</a>
+        <a href="#">Terms</a>
+      </nav>
+    </div>
+
+    <div class="container footer-bottom">
+      <p>&copy; 2026 LYNK. All rights reserved.</p>
+    </div>
+  </footer>
+
+</body>
+</html>

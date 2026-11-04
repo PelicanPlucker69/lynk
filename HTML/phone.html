@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#1B735D">
+  <title>LYNK | Phone</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <!-- phone.css is self-contained: it does not need any other stylesheet -->
+  <link rel="stylesheet" href="../CSS/phone.css">
+</head>
+<body>
+
+  <!-- Icon sprite -->
+  <svg class="ph-sprite" aria-hidden="true" focusable="false">
+    <defs>
+      <symbol id="i-check" viewBox="0 0 24 24">
+        <path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+      </symbol>
+      <symbol id="i-laptop" viewBox="0 0 64 64">
+        <g fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="11" y="13" width="42" height="28" rx="4"/>
+          <path d="M5 49h54l-4 -8H9z"/>
+        </g>
+      </symbol>
+      <symbol id="i-retry" viewBox="0 0 24 24">
+        <path d="M4 12a8 8 0 1 0 2.6-5.9M4 4v4.5h4.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+      </symbol>
+      <symbol id="i-logo" viewBox="0 0 40 40">
+        <circle cx="14" cy="20" r="10" fill="none" stroke="currentColor" stroke-width="5"/>
+        <circle cx="26" cy="20" r="10" fill="none" stroke="currentColor" stroke-width="5"/>
+      </symbol>
+      <symbol id="i-cam" viewBox="0 0 24 24">
+        <path d="M4 8h3l1.6-2.4h6.8L17 8h3a1.5 1.5 0 0 1 1.5 1.5v8A1.5 1.5 0 0 1 20 19H4a1.5 1.5 0 0 1-1.5-1.5v-8A1.5 1.5 0 0 1 4 8z" fill="currentColor"/>
+        <circle cx="12" cy="13.3" r="3.4" fill="#fff"/>
+      </symbol>
+      <symbol id="i-torch" viewBox="0 0 24 24">
+        <path d="M8 3h8v4l-1.5 2v11a1.5 1.5 0 0 1-1.5 1.5h-2A1.5 1.5 0 0 1 9.5 20V9L8 7z" fill="currentColor"/>
+      </symbol>
+    </defs>
+  </svg>
+
+  <main class="ph-stage">
+    <div class="ph-device" id="device">
+
+      <!-- Fake phone status bar (only shown when previewing on a computer) -->
+      <div class="ph-status" aria-hidden="true">
+        <span id="statusTime">9:41</span>
+        <span class="ph-status-icons">
+          <span class="ph-bars"><i></i><i></i><i></i><i></i></span>
+          <span class="ph-battery"></span>
+        </span>
+      </div>
+
+      <!-- ============ SCREEN 1: lock screen + haptic notification ============ -->
+      <section class="ph-screen ph-lock" id="screenLock" aria-label="Phone lock screen">
+        <div class="ph-lock-top">
+          <p class="ph-lock-date" id="lockDate">Friday, August 24</p>
+          <p class="ph-lock-time" id="lockTime">11:59</p>
+        </div>
+
+        <button type="button" class="ph-notif" id="notif" aria-label="LYNK notification: Get ready for the game. Tap to open." hidden>
+          <span class="ph-notif-icon" aria-hidden="true"><svg><use href="#i-logo"/></svg></span>
+          <span class="ph-notif-text">
+            <span class="ph-notif-head"><strong>LYNK</strong><span>now</span></span>
+            <span class="ph-notif-title">Get ready for the game!</span>
+            <span class="ph-notif-sub">The scavenger hunt is starting. Tap to open.</span>
+          </span>
+        </button>
+
+        <div class="ph-lock-bottom" aria-hidden="true">
+          <span class="ph-lock-btn"><svg><use href="#i-torch"/></svg></span>
+          <span class="ph-lock-btn"><svg><use href="#i-cam"/></svg></span>
+        </div>
+        <span class="ph-home-bar" aria-hidden="true"></span>
+      </section>
+
+      <!-- ============ SCREEN 2: camera (countdown running) ============ -->
+      <section class="ph-screen ph-app" id="screenCamera" aria-label="Take a photo" hidden>
+        <header class="ph-top">
+          <p class="ph-logo"><svg aria-hidden="true"><use href="#i-logo"/></svg><span>LYNK</span></p>
+          <div class="ph-timer" role="timer">
+            <p class="ph-timer-num" id="timerCam">00:20</p>
+            <p class="ph-timer-label">Seconds Remaining</p>
+          </div>
+          <p class="ph-objective"><span class="ph-obj-dot" id="objDot" aria-hidden="true"></span><span id="objText">Find something BLUE</span></p>
+        </header>
+
+        <div class="ph-viewfinder" id="viewfinder">
+          <video id="video" autoplay playsinline muted></video>
+          <p class="ph-vf-msg" id="vfMsg" hidden>Camera not available here.<br>Tap the button to use a demo photo.</p>
+          <span class="ph-corner tl" aria-hidden="true"></span>
+          <span class="ph-corner tr" aria-hidden="true"></span>
+          <span class="ph-corner bl" aria-hidden="true"></span>
+          <span class="ph-corner br" aria-hidden="true"></span>
+        </div>
+
+        <footer class="ph-bottom">
+          <button type="button" class="ph-shutter" id="shutter" aria-label="Take photo"></button>
+          <p class="ph-hint">Take a photo of the object</p>
+        </footer>
+      </section>
+
+      <!-- ============ SCREEN 3: photo confirmation ============ -->
+      <section class="ph-screen ph-app" id="screenReview" aria-label="Confirm your photo" hidden>
+        <header class="ph-top ph-top-compact">
+          <div class="ph-timer" role="timer">
+            <p class="ph-timer-num" id="timerRev">00:20</p>
+            <p class="ph-timer-label">Seconds Remaining</p>
+          </div>
+        </header>
+
+        <div class="ph-photo-wrap">
+          <img class="ph-photo" id="photo" alt="The photo you just took">
+        </div>
+
+        <footer class="ph-bottom ph-bottom-stack">
+          <p class="ph-ask">Happy with this photo?</p>
+          <button type="button" class="ph-btn ph-btn-primary" id="submitBtn">
+            <svg aria-hidden="true"><use href="#i-check"/></svg> Submit photo
+          </button>
+          <button type="button" class="ph-btn ph-btn-ghost" id="retryBtn">
+            <svg aria-hidden="true"><use href="#i-retry"/></svg> Try again
+          </button>
+        </footer>
+      </section>
+
+      <!-- ============ SCREEN 4: submitted -> back to laptop ============ -->
+      <section class="ph-screen ph-done" id="screenDone" aria-label="Photo submitted" hidden>
+        <div class="ph-done-body">
+          <span class="ph-done-tick" aria-hidden="true"><svg><use href="#i-check"/></svg></span>
+          <h1 class="ph-done-title" id="doneTitle" tabindex="-1">Photo submitted!</h1>
+          <p class="ph-done-time" id="doneTime">Submitted in 0:12</p>
+
+          <img class="ph-done-thumb" id="doneThumb" alt="Your submitted photo">
+
+          <div class="ph-back">
+            <span class="ph-back-icon" aria-hidden="true"><svg><use href="#i-laptop"/></svg></span>
+            <div>
+              <p class="ph-back-title">Go back to your laptop</p>
+              <p class="ph-back-sub">Press <strong>Finish</strong> there to see how everyone did.</p>
+            </div>
+          </div>
+        </div>
+        <button type="button" class="ph-restart" id="restartBtn">Restart demo</button>
+      </section>
+
+      <!-- ============ SCREEN 5: time ran out ============ -->
+      <section class="ph-screen ph-done ph-timeup" id="screenTimeup" aria-label="Time is up" hidden>
+        <div class="ph-done-body">
+          <span class="ph-done-tick" aria-hidden="true">00:00</span>
+          <h1 class="ph-done-title" id="timeupTitle" tabindex="-1">Time&rsquo;s up!</h1>
+          <p class="ph-done-time">No photo was submitted this round.</p>
+
+          <div class="ph-back">
+            <span class="ph-back-icon" aria-hidden="true"><svg><use href="#i-laptop"/></svg></span>
+            <div>
+              <p class="ph-back-title">Go back to your laptop</p>
+              <p class="ph-back-sub">Press <strong>Finish</strong> there to carry on.</p>
+            </div>
+          </div>
+        </div>
+        <button type="button" class="ph-restart" id="restartBtn2">Restart demo</button>
+      </section>
+
+      <p class="ph-live visually-hidden" id="live" role="status" aria-live="polite"></p>
+    </div>
+  </main>
+
+  <script src="../JS/link.js"></script>
+  <script src="../JS/phone.js"></script>
+</body>
+</html>

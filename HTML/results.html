@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LYNK | Hunt Results</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <!-- results.css is self-contained: it does not need any other stylesheet -->
+  <link rel="stylesheet" href="../CSS/results.css">
+</head>
+<body class="m-page">
+
+  <!-- Icon sprite -->
+  <svg class="m-sprite" aria-hidden="true" focusable="false">
+    <defs>
+      <symbol id="i-mic" viewBox="0 0 24 24">
+        <rect x="8.5" y="2" width="7" height="13" rx="3.5" fill="currentColor"/>
+        <path d="M5 11.5a7 7 0 0 0 14 0M12 18.5V22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      </symbol>
+
+      <symbol id="i-camera" viewBox="0 0 24 24">
+        <rect x="1.5" y="5.5" width="14" height="13" rx="3.5" fill="currentColor"/>
+        <path d="M17.5 10.2l4.3-2.6a.6.6 0 0 1 .9.5v7.8a.6.6 0 0 1-.9.5l-4.3-2.6z" fill="currentColor"/>
+      </symbol>
+
+      <symbol id="i-share" viewBox="0 0 24 24">
+        <rect x="1.5" y="3" width="21" height="15" rx="3.5" fill="currentColor"/>
+        <path d="M12 14.8V8.2M8.8 11.2L12 8l3.2 3.2" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M8 21.5h8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      </symbol>
+
+      <symbol id="i-chat" viewBox="0 0 24 24">
+        <path d="M4 3h16a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H10l-5 4v-4H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z" fill="currentColor"/>
+      </symbol>
+
+      <symbol id="i-people" viewBox="0 0 24 24">
+        <circle cx="9" cy="8" r="4" fill="currentColor"/>
+        <path d="M1.5 20.5c0-4 3.4-6.2 7.5-6.2s7.5 2.2 7.5 6.2z" fill="currentColor"/>
+        <circle cx="18" cy="9" r="3" fill="currentColor"/>
+        <path d="M17.2 14.2c3.2.1 5.8 1.7 5.8 5.3h-4.4c0-2-.5-3.8-1.4-5.3z" fill="currentColor"/>
+      </symbol>
+
+      <symbol id="i-more" viewBox="0 0 24 24">
+        <circle cx="4.5" cy="12" r="2.3" fill="currentColor"/>
+        <circle cx="12" cy="12" r="2.3" fill="currentColor"/>
+        <circle cx="19.5" cy="12" r="2.3" fill="currentColor"/>
+      </symbol>
+    </defs>
+  </svg>
+
+  <a class="skip-link" href="#results-main">Skip to results</a>
+
+  <!-- ===== Navbar (same look as the homepage, menu links removed) ===== -->
+  <header class="site-header">
+    <div class="container nav">
+      <a href="index.html" class="logo" aria-label="LYNK home">
+        <svg class="logo-mark" width="36" height="36" viewBox="0 0 40 40" aria-hidden="true">
+          <defs>
+            <linearGradient id="logoGradLeft" gradientUnits="userSpaceOnUse" x1="1.5" y1="0" x2="26.5" y2="0">
+              <stop offset="0" stop-color="#0FCB95"/>
+              <stop offset="1" stop-color="#17A07C"/>
+            </linearGradient>
+            <linearGradient id="logoGradRight" gradientUnits="userSpaceOnUse" x1="13.5" y1="0" x2="38.5" y2="0">
+              <stop offset="0" stop-color="#17967A"/>
+              <stop offset="1" stop-color="#1B735D"/>
+            </linearGradient>
+          </defs>
+          <circle cx="14" cy="20" r="10" fill="none" stroke="url(#logoGradLeft)" stroke-width="5"/>
+          <circle cx="26" cy="20" r="10" fill="none" stroke="url(#logoGradRight)" stroke-width="5"/>
+        </svg>
+        <span class="logo-text">LYNK</span>
+      </a>
+    </div>
+  </header>
+
+  <!-- Meeting status -->
+  <div class="container">
+    <div class="m-status">
+      <span class="m-pill" id="statusPill">Status: Scavenger Hunt</span>
+      <span class="m-sep" aria-hidden="true">&bull;</span>
+      <span class="m-time" id="clock">11:59 AM</span>
+      <span class="m-sep" aria-hidden="true">&bull;</span>
+      <span class="m-length" id="elapsed">0 min</span>
+      <button type="button" class="skip-round" id="skipBtn" hidden>Skip round 2 &rarr; podium</button>
+    </div>
+  </div>
+
+  <!-- ===== Main ===== -->
+  <main class="container r-main" id="results-main">
+    <section class="r-card has-rail" aria-label="Scavenger Hunt results">
+
+      <div class="r-stage">
+
+      <!-- VIEW 1: waiting for everyone else (about 10 seconds) -->
+      <div class="r-view r-center" id="viewWaiting">
+        <p class="r-kicker" id="waitRound">Round 1 of 2</p>
+        <div class="r-spinner" aria-hidden="true"></div>
+        <h1 class="r-title" tabindex="-1">Waiting for everyone else to finish&hellip;</h1>
+        <p class="r-sub">Your photo was submitted in <strong id="mySubmitTime">0:00</strong>. Nice work!</p>
+
+        <!-- Photos from the phones, shown as people submit them -->
+        <div class="r-gallery" id="gallery" aria-label="Photos submitted this round">
+          <div class="r-gal-stage">
+            <button type="button" class="r-gal-arrow" id="galPrev" aria-label="Previous photo">&#10094;</button>
+            <figure class="r-gal-fig">
+              <div class="r-gal-frame">
+                <img id="galImg" alt="" hidden>
+                <p class="r-gal-empty" id="galEmpty">Photos will appear here as people submit them.</p>
+                <span class="r-gal-new" id="galNew" hidden>New</span>
+              </div>
+              <figcaption class="r-gal-cap" id="galCap" aria-live="polite"></figcaption>
+            </figure>
+            <button type="button" class="r-gal-arrow" id="galNext" aria-label="Next photo">&#10095;</button>
+          </div>
+          <div class="r-gal-dots" id="galDots" aria-hidden="true"></div>
+        </div>
+
+        <div class="r-progress" aria-hidden="true">
+          <span class="r-progress-bar" id="progBar"></span>
+        </div>
+        <p class="r-count" id="finishedCount" aria-live="polite">1 of 4 finished</p>
+
+        <button type="button" class="r-btn r-btn-primary r-continue" id="waitContinue" hidden>Continue</button>
+      </div>
+
+      <!-- VIEW 2: leaderboard -->
+      <div class="r-view r-center" id="viewBoard" hidden>
+        <p class="r-kicker" id="boardObjective">Scavenger Hunt</p>
+        <h1 class="r-title" id="boardTitle" tabindex="-1">Leaderboard</h1>
+        <p class="r-sub" id="boardSummary"></p>
+
+        <ol class="r-board" id="boardList"></ol>
+        <!-- Final results only: top 3 on a podium (filled in by results.js) -->
+        <div class="r-podium" id="podium" role="list" aria-label="Top three players" hidden>
+          <div class="r-pod r-pod-2" role="listitem">
+            <span class="r-pod-medal" aria-hidden="true">&#129352;</span>
+            <span class="r-pod-avatar" aria-hidden="true"></span>
+            <p class="r-pod-name"></p>
+            <div class="r-pod-block"><span class="r-pod-rank">2</span><span class="r-pod-pts"></span></div>
+          </div>
+          <div class="r-pod r-pod-1" role="listitem">
+            <span class="r-pod-medal" aria-hidden="true">&#129351;</span>
+            <span class="r-pod-avatar" aria-hidden="true"></span>
+            <p class="r-pod-name"></p>
+            <div class="r-pod-block"><span class="r-pod-rank">1</span><span class="r-pod-pts"></span></div>
+          </div>
+          <div class="r-pod r-pod-3" role="listitem">
+            <span class="r-pod-medal" aria-hidden="true">&#129353;</span>
+            <span class="r-pod-avatar" aria-hidden="true"></span>
+            <p class="r-pod-name"></p>
+            <div class="r-pod-block"><span class="r-pod-rank">3</span><span class="r-pod-pts"></span></div>
+          </div>
+        </div>
+
+        <!-- Final results only: your own position and points -->
+        <p class="r-final-pos" id="finalPos" hidden></p>
+        <div class="r-final-pts" id="finalPts" hidden>
+          <p class="r-final-pts-label">Your final points</p>
+          <p class="r-final-pts-num" id="finalPtsNum">0 pts</p>
+        </div>
+
+        <p class="r-note" id="boardNote" hidden>Points are shown as Round 1 + Round 2, with your total on the right.</p>
+
+        <!-- After round 1: a loading symbol while round 2 gets ready (5 seconds) -->
+        <div class="r-next" id="nextRound" hidden>
+          <div class="r-spinner r-spinner-sm" aria-hidden="true"></div>
+          <p class="r-next-text" aria-live="polite">Round 2 starting in <strong id="nextCount">5</strong>&hellip;</p>
+        </div>
+
+        <!-- After the final round only -->
+        <div class="r-actions" id="finalActions" hidden>
+          <a href="meeting.html" class="r-btn r-btn-primary">Back to meeting</a>
+          <a href="game.html" class="r-btn r-btn-ghost">Play again</a>
+        </div>
+      </div>
+
+      </div>
+
+      <!-- Other participants: small, secondary to the main content -->
+      <aside class="p-rail" id="rail" aria-label="Meeting participants">
+        <ul class="p-list">
+          <li class="p-item">
+            <div class="p-tile p-c1" id="selfTile">
+              <video class="cam-video" autoplay playsinline muted aria-hidden="true"></video>
+              <span class="p-initials" aria-hidden="true">BO</span>
+              <svg class="p-muted" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-mic"/><path class="halo" d="M4 4l16 16"/><path class="slash" d="M4 4l16 16"/></svg>
+              <span class="p-host">Host</span>
+            </div>
+            <p class="p-name">Bobby</p>
+          </li>
+          <li class="p-item">
+            <div class="p-tile p-c3 is-avatar">
+              <span class="p-initials" aria-hidden="true">JT</span>
+            </div>
+            <p class="p-name">Jordan T.</p>
+          </li>
+          <li class="p-item">
+            <div class="p-tile p-c6 is-avatar">
+              <span class="p-initials" aria-hidden="true">MP</span>
+            </div>
+            <p class="p-name">Morgan P.</p>
+          </li>
+          <li class="p-item">
+            <div class="p-tile p-c2 is-avatar">
+              <span class="p-initials" aria-hidden="true">AK</span>
+            </div>
+            <p class="p-name">Alex K.</p>
+          </li>
+        </ul>
+      </aside>
+
+    </section>
+  </main>
+
+  <!-- ===== Control bar (live captions sit just above the buttons) ===== -->
+  <footer class="m-controls">
+    <section class="cc-bar" id="ccBar" aria-label="Live captions">
+      <div class="cc-inner">
+        <div class="cc-head">
+          <span class="cc-badge" aria-hidden="true">CC</span>
+          <h2 class="cc-title">Live captions</h2>
+          <span class="cc-status" id="ccStatus" role="status">Starting&hellip;</span>
+          <button type="button" class="cc-toggle" id="ccToggle" aria-expanded="true" aria-controls="ccLog">Hide</button>
+        </div>
+        <div class="cc-log" id="ccLog" role="log" aria-live="off" tabindex="0" aria-label="Live captions. Scroll up to read earlier speech."></div>
+      </div>
+    </section>
+    <div class="m-controls-inner">
+      <div class="m-btn-group">
+        <button type="button" class="m-btn" id="micBtn" aria-pressed="true">
+          <svg class="m-ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-mic"/><path class="halo" d="M4 4l16 16"/><path class="slash" d="M4 4l16 16"/></svg>
+          <span>Mic</span>
+        </button>
+
+        <button type="button" class="m-btn" id="camBtn" aria-pressed="true">
+          <svg class="m-ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-camera"/><path class="halo" d="M4 4l16 16"/><path class="slash" d="M4 4l16 16"/></svg>
+          <span>Camera</span>
+        </button>
+
+        <button type="button" class="m-btn" id="shareBtn">
+          <svg class="m-ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-share"/></svg>
+          <span>Share</span>
+        </button>
+
+        <button type="button" class="m-btn" id="chatBtn">
+          <svg class="m-ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-chat"/></svg>
+          <span>Chat</span>
+        </button>
+
+        <button type="button" class="m-btn" id="peopleBtn">
+          <svg class="m-ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-people"/></svg>
+          <span>Participant</span>
+        </button>
+
+        <button type="button" class="m-btn" id="moreBtn">
+          <svg class="m-ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-more"/></svg>
+          <span>More</span>
+        </button>
+      </div>
+
+      <a href="index.html" class="m-leave" id="leaveLink">Leave</a>
+    </div>
+  </footer>
+
+  <div class="m-toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="../JS/captions.js"></script>
+  <script src="../JS/camera.js"></script>
+  <script src="../JS/results.js"></script>
+</body>
+</html>

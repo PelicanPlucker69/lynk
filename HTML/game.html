@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LYNK | Scavenger Hunt</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <!-- game.css is self-contained: it does not need any other stylesheet -->
+  <link rel="stylesheet" href="../CSS/game.css">
+</head>
+<body class="m-page">
+
+  <!-- Icon sprite: every icon on this page is defined once and reused with <use> -->
+  <svg class="m-sprite" aria-hidden="true" focusable="false">
+    <defs>
+      <symbol id="i-mic" viewBox="0 0 24 24">
+        <rect x="8.5" y="2" width="7" height="13" rx="3.5" fill="currentColor"/>
+        <path d="M5 11.5a7 7 0 0 0 14 0M12 18.5V22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      </symbol>
+
+      <symbol id="i-camera" viewBox="0 0 24 24">
+        <rect x="1.5" y="5.5" width="14" height="13" rx="3.5" fill="currentColor"/>
+        <path d="M17.5 10.2l4.3-2.6a.6.6 0 0 1 .9.5v7.8a.6.6 0 0 1-.9.5l-4.3-2.6z" fill="currentColor"/>
+      </symbol>
+
+      <symbol id="i-share" viewBox="0 0 24 24">
+        <rect x="1.5" y="3" width="21" height="15" rx="3.5" fill="currentColor"/>
+        <path d="M12 14.8V8.2M8.8 11.2L12 8l3.2 3.2" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M8 21.5h8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      </symbol>
+
+      <symbol id="i-chat" viewBox="0 0 24 24">
+        <path d="M4 3h16a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H10l-5 4v-4H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z" fill="currentColor"/>
+      </symbol>
+
+      <symbol id="i-people" viewBox="0 0 24 24">
+        <circle cx="9" cy="8" r="4" fill="currentColor"/>
+        <path d="M1.5 20.5c0-4 3.4-6.2 7.5-6.2s7.5 2.2 7.5 6.2z" fill="currentColor"/>
+        <circle cx="18" cy="9" r="3" fill="currentColor"/>
+        <path d="M17.2 14.2c3.2.1 5.8 1.7 5.8 5.3h-4.4c0-2-.5-3.8-1.4-5.3z" fill="currentColor"/>
+      </symbol>
+
+      <symbol id="i-more" viewBox="0 0 24 24">
+        <circle cx="4.5" cy="12" r="2.3" fill="currentColor"/>
+        <circle cx="12" cy="12" r="2.3" fill="currentColor"/>
+        <circle cx="19.5" cy="12" r="2.3" fill="currentColor"/>
+      </symbol>
+
+      <symbol id="i-arrow" viewBox="0 0 24 24">
+        <path d="M4 12h15M13 5.5l6.5 6.5-6.5 6.5" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+      </symbol>
+
+      <!-- Rule illustrations (drawn with the current text colour) -->
+      <symbol id="s-phone" viewBox="0 0 64 64">
+        <g fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="22" y="8" width="20" height="44" rx="5"/>
+          <path d="M22 42h20M30 47h4"/>
+          <path d="M13 22v16M6 26v8M51 22v16M58 26v8"/>
+        </g>
+      </symbol>
+
+      <symbol id="s-timer" viewBox="0 0 64 64">
+        <g fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="32" cy="36" r="19"/>
+          <path d="M26 8h12M32 8v9M32 36V25M32 36l8 6"/>
+        </g>
+      </symbol>
+
+      <symbol id="s-search" viewBox="0 0 64 64">
+        <g fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="27" cy="27" r="16"/>
+          <path d="M39 39l17 17"/>
+          <path d="M20 24a8 8 0 0 1 7-7"/>
+        </g>
+      </symbol>
+
+      <symbol id="s-photo" viewBox="0 0 64 64">
+        <g fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="7" y="18" width="50" height="35" rx="6"/>
+          <path d="M21 18l4-7h14l4 7"/>
+          <circle cx="32" cy="35" r="9"/>
+        </g>
+      </symbol>
+    </defs>
+  </svg>
+
+  <a class="skip-link" href="#game-main">Skip to the game</a>
+
+  <!-- ===== Navbar (same look as the homepage, menu links removed) ===== -->
+  <header class="site-header">
+    <div class="container nav">
+      <a href="index.html" class="logo" aria-label="LYNK home">
+        <svg class="logo-mark" width="36" height="36" viewBox="0 0 40 40" aria-hidden="true">
+          <defs>
+            <linearGradient id="logoGradLeft" gradientUnits="userSpaceOnUse" x1="1.5" y1="0" x2="26.5" y2="0">
+              <stop offset="0" stop-color="#0FCB95"/>
+              <stop offset="1" stop-color="#17A07C"/>
+            </linearGradient>
+            <linearGradient id="logoGradRight" gradientUnits="userSpaceOnUse" x1="13.5" y1="0" x2="38.5" y2="0">
+              <stop offset="0" stop-color="#17967A"/>
+              <stop offset="1" stop-color="#1B735D"/>
+            </linearGradient>
+          </defs>
+          <circle cx="14" cy="20" r="10" fill="none" stroke="url(#logoGradLeft)" stroke-width="5"/>
+          <circle cx="26" cy="20" r="10" fill="none" stroke="url(#logoGradRight)" stroke-width="5"/>
+        </svg>
+        <span class="logo-text">LYNK</span>
+      </a>
+    </div>
+  </header>
+
+  <!-- Meeting status -->
+  <div class="container">
+    <div class="m-status">
+      <span class="m-pill" id="statusPill">Status: Team Meeting</span>
+      <span class="m-sep" aria-hidden="true">&bull;</span>
+      <span class="m-time" id="clock">11:59 AM</span>
+      <span class="m-sep" aria-hidden="true">&bull;</span>
+      <span class="m-length" id="elapsed">0 min</span>
+      <button type="button" class="skip-round" id="skipBtn" hidden>Skip round 2 &rarr; podium</button>
+    </div>
+  </div>
+
+  <!-- ===== Main ===== -->
+  <main class="container g-main" id="game-main">
+    <section class="g-card" id="gameCard" aria-label="Scavenger Hunt">
+
+      <div class="g-stage">
+
+      <!-- VIEW 1: rules + ready up -->
+      <div class="g-view" id="viewRules">
+        <h1 class="g-title" tabindex="-1">Scavenger Hunt</h1>
+        <h2 class="g-subtitle">Game rules</h2>
+        <p class="g-rounds-note">You&rsquo;ll play <strong>2 rounds</strong>. Your points from both rounds are added together on the final leaderboard.</p>
+
+        <!--
+          HOW TO USE YOUR OWN IMAGES INSTEAD OF THE ICONS:
+          inside any .g-step-img, delete the <svg> and add
+          <img src="../images/your-image.png" alt="">
+        -->
+        <ol class="g-steps">
+          <li class="g-step">
+            <span class="g-step-num">01</span>
+            <div class="g-step-img"><svg class="g-step-icon" aria-hidden="true"><use href="#s-phone"/></svg></div>
+            <h3 class="g-step-title">Keep your phone close</h3>
+            <p class="g-step-text">Have your phone within reach. It will buzz with a &ldquo;Hunt starting soon&rdquo; alert just before the game begins.</p>
+          </li>
+
+          <li class="g-step">
+            <span class="g-step-num">02</span>
+            <div class="g-step-img"><svg class="g-step-icon" aria-hidden="true"><use href="#s-timer"/></svg></div>
+            <h3 class="g-step-title">Wait for the countdown</h3>
+            <p class="g-step-text">Once everyone is ready, a 5 second countdown starts. When it ends, your objective appears on screen.</p>
+          </li>
+
+          <li class="g-step">
+            <span class="g-step-num">03</span>
+            <div class="g-step-img"><svg class="g-step-icon" aria-hidden="true"><use href="#s-search"/></svg></div>
+            <h3 class="g-step-title">Find it, fast</h3>
+            <p class="g-step-text">Take your phone and go as quickly as you can to find an object that matches the objective.</p>
+          </li>
+
+          <li class="g-step">
+            <span class="g-step-num">04</span>
+            <div class="g-step-img"><svg class="g-step-icon" aria-hidden="true"><use href="#s-photo"/></svg></div>
+            <h3 class="g-step-title">Snap and submit</h3>
+            <p class="g-step-text">Take a photo of it on your phone and submit it right away. The fastest photos earn the most points.</p>
+          </li>
+        </ol>
+
+        <div class="g-ready">
+          <p class="g-ready-count" aria-live="polite"><span id="readyNum">3</span>/4 are ready</p>
+          <button type="button" class="g-ready-btn" id="readyBtn">Are you ready?</button>
+        </div>
+      </div>
+
+      <!-- VIEW 2: countdown 10 to 1 -->
+      <div class="g-view g-center" id="viewCountdown" hidden>
+        <p class="g-kicker" id="countKicker">Everyone&rsquo;s ready!</p>
+        <h1 class="g-big-title" tabindex="-1">Hunt starting in&hellip;</h1>
+
+        <div class="g-ring" aria-hidden="true">
+          <svg viewBox="0 0 200 200">
+            <circle class="g-ring-track" cx="100" cy="100" r="88"/>
+            <circle class="g-ring-bar" id="ringBar" cx="100" cy="100" r="88"/>
+          </svg>
+          <span class="g-count-num" id="countNum">10</span>
+        </div>
+
+        <div class="g-phone-box" role="note">
+          <span class="g-phone-badge" aria-hidden="true"><svg class="g-phone-icon"><use href="#s-phone"/></svg></span>
+          <div class="g-phone-text">
+            <p class="g-phone-title">Get ready on your phone</p>
+            <p class="g-phone-sub">Keep it close. It will buzz when the hunt begins.</p>
+            <button type="button" class="g-qr-copy" data-qr-copy hidden>Can&rsquo;t scan? Copy the link</button>
+          </div>
+          <div class="g-qr" data-qr hidden>
+            <div class="g-qr-code" data-qr-code></div>
+            <p class="g-qr-cap">Scan with your phone</p>
+            <p class="g-qr-status" data-qr-status role="status">Connecting&hellip;</p>
+          </div>
+        </div>
+        <p class="visually-hidden" id="countLive" aria-live="assertive"></p>
+      </div>
+
+      <!-- VIEW 3: the objective -->
+      <div class="g-view g-center" id="viewHunt" hidden>
+        <p class="g-round-tag" id="huntRound">Round 1 of 2</p>
+        <p class="g-go" aria-hidden="true">GO!</p>
+        <h1 class="g-big-title" tabindex="-1">Your objective</h1>
+
+        <div class="g-objective">
+          <span class="g-obj-badge" id="objBadge" aria-hidden="true"></span>
+          <div class="g-obj-text">
+            <p class="g-obj-title" id="objTitle">Find something BLUE</p>
+            <p class="g-obj-hint" id="objHint">Any blue object counts.</p>
+          </div>
+        </div>
+
+        <div class="g-phone-box" role="note">
+          <span class="g-phone-badge" aria-hidden="true"><svg class="g-phone-icon"><use href="#s-phone"/></svg></span>
+          <div class="g-phone-text">
+            <p class="g-phone-title">Switch to your phone now</p>
+            <p class="g-phone-sub">Go find the object, take a photo of it on your phone and submit it as fast as you can.</p>
+            <button type="button" class="g-qr-copy" data-qr-copy hidden>Can&rsquo;t scan? Copy the link</button>
+          </div>
+          <div class="g-qr" data-qr hidden>
+            <div class="g-qr-code" data-qr-code></div>
+            <p class="g-qr-cap">Scan with your phone</p>
+            <p class="g-qr-status" data-qr-status role="status">Connecting&hellip;</p>
+          </div>
+        </div>
+
+        <p class="g-timer">Time so far: <strong id="huntTime">0:00</strong></p>
+
+        <div class="g-next-row">
+          <p class="g-next-caption">Waiting for your photo from your phone. No phone handy? Press Continue to skip it.</p>
+          <button type="button" class="g-next-btn" id="nextBtn">
+            Continue
+            <svg class="g-next-ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-arrow"/></svg>
+          </button>
+        </div>
+      </div>
+
+      </div>
+
+      <!-- Other participants: small, secondary to the main content -->
+      <aside class="p-rail" id="rail" aria-label="Meeting participants" hidden>
+        <ul class="p-list">
+          <li class="p-item">
+            <div class="p-tile p-c1" id="selfTile">
+              <video class="cam-video" autoplay playsinline muted aria-hidden="true"></video>
+              <span class="p-initials" aria-hidden="true">BO</span>
+              <svg class="p-muted" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-mic"/><path class="halo" d="M4 4l16 16"/><path class="slash" d="M4 4l16 16"/></svg>
+              <span class="p-host">Host</span>
+            </div>
+            <p class="p-name">Bobby</p>
+          </li>
+          <li class="p-item">
+            <div class="p-tile p-c3 is-avatar">
+              <span class="p-initials" aria-hidden="true">JT</span>
+            </div>
+            <p class="p-name">Jordan T.</p>
+          </li>
+          <li class="p-item">
+            <div class="p-tile p-c6 is-avatar">
+              <span class="p-initials" aria-hidden="true">MP</span>
+            </div>
+            <p class="p-name">Morgan P.</p>
+          </li>
+          <li class="p-item">
+            <div class="p-tile p-c2 is-avatar">
+              <span class="p-initials" aria-hidden="true">AK</span>
+            </div>
+            <p class="p-name">Alex K.</p>
+          </li>
+        </ul>
+      </aside>
+
+    </section>
+  </main>
+
+  <!-- ===== Control bar (live captions sit just above the buttons) ===== -->
+  <footer class="m-controls">
+    <section class="cc-bar" id="ccBar" aria-label="Live captions">
+      <div class="cc-inner">
+        <div class="cc-head">
+          <span class="cc-badge" aria-hidden="true">CC</span>
+          <h2 class="cc-title">Live captions</h2>
+          <span class="cc-status" id="ccStatus" role="status">Starting&hellip;</span>
+          <button type="button" class="cc-toggle" id="ccToggle" aria-expanded="true" aria-controls="ccLog">Hide</button>
+        </div>
+        <div class="cc-log" id="ccLog" role="log" aria-live="off" tabindex="0" aria-label="Live captions. Scroll up to read earlier speech."></div>
+      </div>
+    </section>
+    <div class="m-controls-inner">
+      <div class="m-btn-group">
+        <button type="button" class="m-btn" id="micBtn" aria-pressed="true">
+          <svg class="m-ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-mic"/><path class="halo" d="M4 4l16 16"/><path class="slash" d="M4 4l16 16"/></svg>
+          <span>Mic</span>
+        </button>
+
+        <button type="button" class="m-btn" id="camBtn" aria-pressed="true">
+          <svg class="m-ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-camera"/><path class="halo" d="M4 4l16 16"/><path class="slash" d="M4 4l16 16"/></svg>
+          <span>Camera</span>
+        </button>
+
+        <button type="button" class="m-btn" id="shareBtn">
+          <svg class="m-ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-share"/></svg>
+          <span>Share</span>
+        </button>
+
+        <button type="button" class="m-btn" id="chatBtn">
+          <svg class="m-ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-chat"/></svg>
+          <span>Chat</span>
+        </button>
+
+        <button type="button" class="m-btn" id="peopleBtn">
+          <svg class="m-ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-people"/></svg>
+          <span>Participant</span>
+        </button>
+
+        <button type="button" class="m-btn" id="moreBtn">
+          <svg class="m-ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-more"/></svg>
+          <span>More</span>
+        </button>
+      </div>
+
+      <a href="index.html" class="m-leave" id="leaveLink">Leave</a>
+    </div>
+  </footer>
+
+  <div class="m-toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="../JS/captions.js"></script>
+  <script src="../JS/link.js"></script>
+  <script src="../JS/qrcode.js"></script>
+  <script src="../JS/camera.js"></script>
+  <script src="../JS/game.js"></script>
+</body>
+</html>
