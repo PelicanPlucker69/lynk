@@ -20,14 +20,15 @@
   var TOTAL_ROUNDS = 2;         // how many rounds make up one game
   var RING_LENGTH = 553;        // circumference of the countdown ring (2 * PI * 88)
 
-  /* The scavenger hunt objectives. One is picked at random each game. */
+  /* The scavenger hunt objectives. They are fixed so the demo always plays the same way:
+     round 1 = drink bottle, round 2 = pen. (OBJECTIVES[round - 1] is used.) */
   var OBJECTIVES = [
-    { title: 'Find something BLUE',   hint: 'Any blue object counts: a mug, a book, a cushion, a pen…', swatch: '#2F6BFF' },
-    { title: 'Find something RED',    hint: 'Any red object counts: a fruit, a jumper, a bottle cap…',  swatch: '#E5484D' },
-    { title: 'Find something GREEN',  hint: 'Any green object counts: a plant, a folder, a pair of socks…', swatch: '#2FA84F' },
-    { title: 'Find something YELLOW', hint: 'Any yellow object counts: a banana, a sticky note, a highlighter…', swatch: '#F5C518' },
-    { title: 'Find something you can drink from', hint: 'A mug, cup, glass or water bottle all count.', emoji: '🥤' },
-    { title: 'Find something with words on it',   hint: 'A book, a cereal box, a letter, a mug with a slogan…', emoji: '📖' }
+    { title: 'Find a drink bottle', lead: 'Find a', name: 'DRINK BOTTLE', noun: 'drink bottle',
+      hint: 'Any drink bottle counts: a water bottle, sports bottle or juice bottle.',
+      icon: '#o-bottle', swatch: '#2F8FE0' },
+    { title: 'Find a pen', lead: 'Find a', name: 'PEN', noun: 'pen',
+      hint: 'Any pen counts: a biro, a gel pen, a felt-tip or a marker.',
+      icon: '#o-pen', swatch: '#28328C' }
   ];
 
   /* ---------- Safe sessionStorage (shared between pages) ---------- */
@@ -250,10 +251,8 @@
   }
 
   function startHunt() {
-    // Round 2 never repeats the objective from round 1
-    var previous = store.get('lynkR1Objective');
-    var pool = OBJECTIVES.filter(function (o) { return round === 1 || o.title !== previous; });
-    var objective = pool[Math.floor(Math.random() * pool.length)];
+    // Fixed order: round 1 is the drink bottle, round 2 is the pen
+    var objective = OBJECTIVES[Math.min(round, OBJECTIVES.length) - 1];
     store.set('lynkR' + round + 'Objective', objective.title);
     store.remove('lynkR' + round + 'Photo');
 
@@ -267,17 +266,12 @@
 
     $('huntRound').textContent = 'Round ' + round + ' of ' + TOTAL_ROUNDS;
 
-    $('objTitle').textContent = objective.title;
+    $('objLead').textContent = objective.lead;
+    $('objTitle').textContent = objective.name;
     $('objHint').textContent = objective.hint;
-
-    var badge = $('objBadge');
-    if (objective.swatch) {
-      badge.textContent = '';
-      badge.style.background = objective.swatch;
-    } else {
-      badge.textContent = objective.emoji;
-      badge.style.background = '';
-    }
+    $('objUse').setAttribute('href', objective.icon);
+    $('huntSub').textContent = 'Find the ' + objective.noun + ', take a photo of it on your phone, and submit it as fast as you can.';
+    $('stepFind').textContent = 'Find the ' + objective.noun + ' and take a photo';
 
     showView('hunt');
 

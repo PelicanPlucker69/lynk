@@ -198,7 +198,7 @@
   var galIndex = 0;
   var userBrowsed = false;  // once you click an arrow we stop jumping to new photos
 
-  var OBJECT_COLOURS = { BLUE: '#2F6BFF', RED: '#E5484D', GREEN: '#2FA84F', YELLOW: '#F5C518' };
+  var OBJECT_COLOURS = { BLUE: '#2F6BFF', RED: '#E5484D', GREEN: '#2FA84F', YELLOW: '#F5C518', BOTTLE: '#2F8FE0', PEN: '#28328C' };
 
   function placeholderPhoto(name) {
     var title = objectiveFor(round).toUpperCase();

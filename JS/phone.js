@@ -17,12 +17,8 @@
   var MAX_PHOTO_SIDE = 720;     // photos are shrunk to this size so they upload fast
 
   var OBJECTIVES = [
-    { text: 'Find something BLUE',   color: '#2F6BFF' },
-    { text: 'Find something RED',    color: '#E5484D' },
-    { text: 'Find something GREEN',  color: '#2FA84F' },
-    { text: 'Find something YELLOW', color: '#F5C518' },
-    { text: 'Find something you can drink from', color: '#30E4B6' },
-    { text: 'Find something with words on it',   color: '#28328C' }
+    { text: 'Find a drink bottle', color: '#2F8FE0' },
+    { text: 'Find a pen',          color: '#28328C' }
   ];
 
   /* ---------- Link to the laptop pages (same browser for now, see link.js) ---------- */
