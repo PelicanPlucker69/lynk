@@ -1,0 +1,13 @@
+{
+  "name": "lynk",
+  "version": "1.0.0",
+  "description": "LYNK meeting site with a phone scavenger hunt linked by QR code",
+  "scripts": {
+    "start": "node server/server.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "license": "UNLICENSED",
+  "private": true
+}

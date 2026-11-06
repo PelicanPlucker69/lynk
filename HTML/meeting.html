@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LYNK | Team Meeting</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <!-- meeting.css is self-contained: it does not need styles.css -->
+  <link rel="stylesheet" href="../CSS/meeting.css">
+  <link rel="stylesheet" href="../CSS/settings.css">
+  <script src="../JS/settings.js"></script>
+</head>
+<body class="m-page">
+
+  <!-- Icon sprite: every icon on this page is defined once here and reused with <use> -->
+  <svg class="m-sprite" aria-hidden="true" focusable="false">
+    <defs>
+      <linearGradient id="signal-grad" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#30E4B6"/>
+        <stop offset="1" stop-color="#17967A"/>
+      </linearGradient>
+
+      <symbol id="i-signal" viewBox="0 0 26 24">
+        <rect x="0"  y="17" width="5" height="7"  rx="1.5" fill="url(#signal-grad)"/>
+        <rect x="7"  y="12" width="5" height="12" rx="1.5" fill="url(#signal-grad)"/>
+        <rect x="14" y="7"  width="5" height="17" rx="1.5" fill="url(#signal-grad)"/>
+        <rect x="21" y="1"  width="5" height="23" rx="1.5" fill="url(#signal-grad)"/>
+      </symbol>
+
+      <symbol id="i-mic" viewBox="0 0 24 24">
+        <rect x="8.5" y="2" width="7" height="13" rx="3.5" fill="currentColor"/>
+        <path d="M5 11.5a7 7 0 0 0 14 0M12 18.5V22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      </symbol>
+
+      <symbol id="i-camera" viewBox="0 0 24 24">
+        <rect x="1.5" y="5.5" width="14" height="13" rx="3.5" fill="currentColor"/>
+        <path d="M17.5 10.2l4.3-2.6a.6.6 0 0 1 .9.5v7.8a.6.6 0 0 1-.9.5l-4.3-2.6z" fill="currentColor"/>
+      </symbol>
+
+      <symbol id="i-share" viewBox="0 0 24 24">
+        <rect x="1.5" y="3" width="21" height="15" rx="3.5" fill="currentColor"/>
+        <path d="M12 14.8V8.2M8.8 11.2L12 8l3.2 3.2" fill="none" style="stroke:var(--white,#fff)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M8 21.5h8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      </symbol>
+
+      <symbol id="i-chat" viewBox="0 0 24 24">
+        <path d="M4 3h16a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H10l-5 4v-4H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z" fill="currentColor"/>
+      </symbol>
+
+      <symbol id="i-people" viewBox="0 0 24 24">
+        <circle cx="9" cy="8" r="4" fill="currentColor"/>
+        <path d="M1.5 20.5c0-4 3.4-6.2 7.5-6.2s7.5 2.2 7.5 6.2z" fill="currentColor"/>
+        <circle cx="18" cy="9" r="3" fill="currentColor"/>
+        <path d="M17.2 14.2c3.2.1 5.8 1.7 5.8 5.3h-4.4c0-2-.5-3.8-1.4-5.3z" fill="currentColor"/>
+      </symbol>
+
+      <symbol id="i-more" viewBox="0 0 24 24">
+        <circle cx="4.5" cy="12" r="2.3" fill="currentColor"/>
+        <circle cx="12" cy="12" r="2.3" fill="currentColor"/>
+        <circle cx="19.5" cy="12" r="2.3" fill="currentColor"/>
+      </symbol>
+
+      <symbol id="i-send" viewBox="0 0 24 24">
+        <path d="M12 19V6M6 11.5l6-6 6 6" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+      </symbol>
+    </defs>
+  </svg>
+
+  <a class="skip-link" href="#meeting-main">Skip to meeting</a>
+
+  <!-- ===== Navbar (same look as the homepage, menu links removed) ===== -->
+  <header class="site-header">
+    <div class="container nav">
+      <a href="index.html" class="logo" aria-label="LYNK home">
+        <svg class="logo-mark" width="36" height="36" viewBox="0 0 40 40" aria-hidden="true">
+          <defs>
+            <linearGradient id="logoGradLeft" gradientUnits="userSpaceOnUse" x1="1.5" y1="0" x2="26.5" y2="0">
+              <stop offset="0" stop-color="#0FCB95"/>
+              <stop offset="1" stop-color="#17A07C"/>
+            </linearGradient>
+            <linearGradient id="logoGradRight" gradientUnits="userSpaceOnUse" x1="13.5" y1="0" x2="38.5" y2="0">
+              <stop offset="0" stop-color="#17967A"/>
+              <stop offset="1" stop-color="#1B735D"/>
+            </linearGradient>
+          </defs>
+          <circle cx="14" cy="20" r="10" fill="none" stroke="url(#logoGradLeft)" stroke-width="5"/>
+          <circle cx="26" cy="20" r="10" fill="none" stroke="url(#logoGradRight)" stroke-width="5"/>
+        </svg>
+        <span class="logo-text">LYNK</span>
+      </a>
+    </div>
+  </header>
+
+  <!-- Meeting status -->
+  <div class="container">
+    <div class="m-status">
+      <span class="m-pill">Status: Team Meeting</span>
+      <span class="m-sep" aria-hidden="true">&bull;</span>
+      <span class="m-time" id="clock">11:59 AM</span>
+      <span class="m-sep" aria-hidden="true">&bull;</span>
+      <span class="m-length" id="elapsed">0 min</span>
+    </div>
+  </div>
+
+  <!-- ===== Main ===== -->
+  <main class="container m-main" id="meeting-main">
+
+    <!-- Video grid -->
+    <section class="m-grid" aria-label="Participants">
+
+      <!--
+        HOW TO USE REAL PHOTOS INSTEAD OF EMOJI:
+        1. Put the picture in an images folder next to HTML/CSS/JS
+        2. Inside a .m-tile, delete the <span class="m-emoji"> and add:
+           <img class="m-photo" src="../images/sarah.jpg" alt="">
+      -->
+
+      <article class="m-person">
+        <div class="m-tile c1 is-host" id="selfTile">
+          <video class="cam-video" autoplay playsinline muted aria-hidden="true"></video>
+          <span class="m-initials" aria-hidden="true">BO</span>
+          <svg class="m-signal" aria-hidden="true"><use href="#i-signal"/></svg>
+          <svg class="m-muted" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-mic"/><path class="halo" d="M4 4l16 16"/><path class="slash" d="M4 4l16 16"/></svg>
+          <span class="m-badge-host">Host</span>
+        </div>
+        <p class="m-name">Bobby</p>
+      </article>
+
+      <article class="m-person">
+        <div class="m-tile c3 is-avatar">
+          <span class="m-initials" aria-hidden="true">JT</span>
+          <svg class="m-signal" aria-hidden="true"><use href="#i-signal"/></svg>
+        </div>
+        <p class="m-name">Jordan T.</p>
+      </article>
+
+      <article class="m-person">
+        <div class="m-tile c6 is-avatar">
+          <span class="m-initials" aria-hidden="true">MP</span>
+          <svg class="m-signal" aria-hidden="true"><use href="#i-signal"/></svg>
+        </div>
+        <p class="m-name">Morgan P.</p>
+      </article>
+
+      <article class="m-person">
+        <div class="m-tile c2 is-avatar">
+          <span class="m-initials" aria-hidden="true">AK</span>
+          <svg class="m-signal" aria-hidden="true"><use href="#i-signal"/></svg>
+        </div>
+        <p class="m-name">Alex K.</p>
+      </article>
+
+    </section>
+
+    <!-- Right column: chat + activity prompt -->
+    <aside class="m-side">
+
+      <section class="m-chat" id="chatPanel" aria-label="Meeting chat and live captions">
+        <div class="m-tabs" role="tablist" aria-label="Chat or live captions">
+          <button type="button" class="m-tab is-active" role="tab" id="tabChat" aria-selected="true" aria-controls="paneChat">Meeting Chat</button>
+          <button type="button" class="m-tab" role="tab" id="tabCaps" aria-selected="false" aria-controls="paneCaps" tabindex="-1">Live Captions</button>
+        </div>
+
+        <!-- Tab 1: chat -->
+        <div class="m-pane" id="paneChat" role="tabpanel" aria-labelledby="tabChat">
+        <div class="m-log" id="chatLog" role="log" aria-live="polite" tabindex="0" aria-label="Chat messages"></div>
+
+        <form class="m-chat-form" id="chatForm" autocomplete="off">
+          <label class="visually-hidden" for="chatInput">Type a message</label>
+          <input id="chatInput" type="text" placeholder="Type a message..." maxlength="300">
+          <button type="submit" class="m-send" aria-label="Send message">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-send"/></svg>
+          </button>
+        </form>
+        </div>
+
+        <!-- Tab 2: live captions (what people say in the call, as text) -->
+        <div class="m-pane" id="paneCaps" role="tabpanel" aria-labelledby="tabCaps" hidden>
+          <div class="m-log m-caps" id="capLog" role="log" aria-live="off" tabindex="0" aria-label="Live captions. Scroll up to read earlier speech."></div>
+          <p class="m-cap-status" id="capStatus" role="status"><span class="m-cap-dot" aria-hidden="true"></span><span id="capStatusText">Starting captions&hellip;</span></p>
+        </div>
+      </section>
+
+      <section class="m-activity" aria-labelledby="activity-title">
+        <h2 class="m-activity-title" id="activity-title">Are you ready for an activity?</h2>
+        <button type="button" class="m-confirm" id="confirmBtn">Confirm</button>
+        <p class="m-activity-note" id="activityNote" hidden>You're ready! Taking you to the game rules&hellip;</p>
+      </section>
+
+    </aside>
+  </main>
+
+  <!-- ===== Control bar ===== -->
+  <footer class="m-controls">
+    <div class="m-controls-inner">
+      <div class="m-btn-group">
+        <button type="button" class="m-btn" id="micBtn" aria-pressed="true">
+          <svg class="m-ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-mic"/><path class="halo" d="M4 4l16 16"/><path class="slash" d="M4 4l16 16"/></svg>
+          <span>Mic</span>
+        </button>
+
+        <button type="button" class="m-btn" id="camBtn" aria-pressed="true">
+          <svg class="m-ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-camera"/><path class="halo" d="M4 4l16 16"/><path class="slash" d="M4 4l16 16"/></svg>
+          <span>Camera</span>
+        </button>
+
+        <button type="button" class="m-btn" id="shareBtn">
+          <svg class="m-ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-share"/></svg>
+          <span>Share</span>
+        </button>
+
+        <button type="button" class="m-btn" id="chatBtn">
+          <svg class="m-ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-chat"/></svg>
+          <span>Chat</span>
+        </button>
+
+        <button type="button" class="m-btn" id="peopleBtn">
+          <svg class="m-ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-people"/></svg>
+          <span>Participant</span>
+        </button>
+
+        <button type="button" class="m-btn" id="moreBtn">
+          <svg class="m-ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-more"/></svg>
+          <span>More</span>
+        </button>
+      </div>
+
+      <a href="index.html" class="m-leave">Leave</a>
+    </div>
+  </footer>
+
+  <div class="m-toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="../JS/camera.js"></script>
+  <script src="../JS/meeting.js"></script>
+</body>
+</html>

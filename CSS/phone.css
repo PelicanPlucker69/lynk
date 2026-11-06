@@ -1,0 +1,581 @@
+/* ==========================================================
+   LYNK | Phone interface (self-contained)
+   Built for a phone first. On a computer it shows as a phone
+   shaped frame in the middle of the page (resize the window).
+   Colours: main greens + competition colours for the timer.
+   ========================================================== */
+
+:root {
+  --primary: #30E4B6;
+  --primary-dark: #1B735D;
+  --secondary: #A1F9CF;
+  --secondary-light: #CDF9E4;
+  --bg: #FAFFFB;
+  --white: #FFFFFF;
+  --ink: #0E2A23;
+  --ink-soft: #3C5A51;
+  --muted: #5F716A;
+  --line: #E3EBE8;
+  --danger: #D63A41;
+
+  /* competition colours */
+  --c-navy: #28328C;
+  --c-maroon: #712A1C;
+  --c-orange: #D65E19;
+  --c-steel: #315A7A;
+  --c-black: #18110D;
+
+  --font: "Poppins", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: var(--font);
+  color: var(--ink);
+  background: var(--ink);
+  -webkit-tap-highlight-color: transparent;
+}
+
+h1, p { margin: 0; }
+button { font-family: inherit; }
+svg { display: block; }
+
+.ph-sprite { position: absolute; width: 0; height: 0; overflow: hidden; }
+
+.visually-hidden {
+  position: absolute !important;
+  width: 1px; height: 1px;
+  margin: -1px; padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+[hidden] { display: none !important; }
+
+/* ---------- The phone ---------- */
+.ph-stage {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  min-height: 100dvh;
+}
+
+.ph-device {
+  position: relative;
+  width: 100%;
+  max-width: 402px;
+  height: 100vh;
+  height: 100dvh;
+  max-height: 874px;
+  overflow: hidden;
+  background: var(--bg);
+}
+
+/* On a computer: a phone shaped frame (402 x 874 like the design) */
+.ph-status { display: none; }
+
+@media (min-width: 520px) {
+  body { background: #E9EFEC; }
+  .ph-stage { padding: 24px; }
+  .ph-device {
+    height: min(874px, calc(100vh - 48px));
+    height: min(874px, calc(100dvh - 48px));
+    border: 10px solid var(--c-black);
+    border-radius: 48px;
+    box-shadow: 0 24px 60px rgba(14, 42, 35, 0.35);
+  }
+  .ph-status {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    z-index: 30;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 40px;
+    padding: 6px 28px 0;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--white);
+    pointer-events: none;
+    mix-blend-mode: normal;
+  }
+  .ph-device:not([data-screen="lock"]) .ph-status { color: var(--ink); }
+  .ph-device[data-screen="timeup"] .ph-status { color: var(--ink); }
+}
+
+.ph-status-icons { display: flex; align-items: center; gap: 6px; }
+
+.ph-bars { display: flex; align-items: flex-end; gap: 2px; height: 11px; }
+.ph-bars i { display: block; width: 3px; background: currentColor; border-radius: 1px; }
+.ph-bars i:nth-child(1) { height: 4px; }
+.ph-bars i:nth-child(2) { height: 6px; }
+.ph-bars i:nth-child(3) { height: 8px; }
+.ph-bars i:nth-child(4) { height: 11px; }
+
+.ph-battery {
+  position: relative;
+  width: 24px; height: 11px;
+  border: 1.5px solid currentColor;
+  border-radius: 4px;
+}
+.ph-battery::before {
+  content: "";
+  position: absolute; inset: 1.5px;
+  right: 4px;
+  background: currentColor;
+  border-radius: 1.5px;
+}
+
+/* Screens fill the phone, one at a time */
+.ph-screen {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ==========================================================
+   1. LOCK SCREEN + NOTIFICATION
+   ========================================================== */
+.ph-lock {
+  align-items: center;
+  padding: calc(56px + var(--safe-top)) 16px calc(28px + var(--safe-bottom));
+  color: var(--white);
+  background:
+    radial-gradient(120% 70% at 50% 0%, #2c9b7e 0%, transparent 60%),
+    linear-gradient(180deg, #14493b 0%, #0E2A23 100%);
+}
+
+.ph-lock-top { text-align: center; }
+
+.ph-lock-date {
+  font-size: 1.05rem;
+  font-weight: 500;
+  opacity: 0.9;
+}
+
+.ph-lock-time {
+  margin-top: 2px;
+  font-size: 5.2rem;
+  font-weight: 600;
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+  font-variant-numeric: tabular-nums;
+}
+
+.ph-notif {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  width: 100%;
+  margin-top: 28px;
+  padding: 14px;
+  text-align: left;
+  color: var(--ink);
+  cursor: pointer;
+  background: rgba(255, 255, 255, 0.94);
+  border: none;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  animation: ph-notif-in 0.5s cubic-bezier(0.2, 0.9, 0.3, 1.2) both, ph-buzz 0.6s 0.5s ease-in-out 2;
+}
+
+.ph-notif:focus-visible { outline: 3px solid var(--primary); outline-offset: 3px; }
+
+.ph-notif-icon {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 44px; height: 44px;
+  color: var(--white);
+  background: linear-gradient(160deg, var(--primary), var(--primary-dark));
+  border-radius: 11px;
+}
+.ph-notif-icon svg { width: 28px; height: 28px; }
+
+.ph-notif-text { display: flex; flex-direction: column; min-width: 0; }
+
+.ph-notif-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  font-size: 0.78rem;
+  color: var(--muted);
+}
+.ph-notif-head strong { color: var(--ink); text-transform: uppercase; letter-spacing: 0.06em; }
+
+.ph-notif-title { margin-top: 2px; font-size: 1.05rem; font-weight: 700; line-height: 1.3; }
+.ph-notif-sub { margin-top: 2px; font-size: 0.88rem; line-height: 1.4; color: var(--ink-soft); }
+
+.ph-lock-bottom {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin-top: auto;
+  padding: 0 14px 22px;
+}
+.ph-lock-btn {
+  display: grid;
+  place-items: center;
+  width: 50px; height: 50px;
+  color: var(--white);
+  background: rgba(255, 255, 255, 0.18);
+  border-radius: 50%;
+}
+.ph-lock-btn svg { width: 24px; height: 24px; }
+
+.ph-home-bar {
+  position: absolute;
+  bottom: calc(8px + var(--safe-bottom));
+  left: 50%;
+  width: 36%;
+  height: 5px;
+  background: rgba(255, 255, 255, 0.85);
+  border-radius: 3px;
+  transform: translateX(-50%);
+}
+
+@keyframes ph-notif-in {
+  from { opacity: 0; transform: translateY(-24px) scale(0.96); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* The "haptic buzz": the notification shakes */
+@keyframes ph-buzz {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-7px); }
+  40% { transform: translateX(7px); }
+  60% { transform: translateX(-5px); }
+  80% { transform: translateX(5px); }
+}
+
+/* ==========================================================
+   2 + 3. CAMERA AND CONFIRMATION (the app screens)
+   ========================================================== */
+.ph-app {
+  background: var(--bg);
+  padding-top: var(--safe-top);
+}
+
+@media (min-width: 520px) {
+  .ph-app { padding-top: 34px; }
+}
+
+.ph-top {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 10px 16px 8px;
+  text-align: center;
+}
+
+.ph-top-compact { padding-top: 14px; }
+
+.ph-logo {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 1.25rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  color: var(--primary-dark);
+}
+.ph-logo svg { width: 26px; height: 26px; color: var(--primary-dark); }
+
+/* Countdown timer */
+.ph-timer { text-align: center; }
+
+.ph-timer-num {
+  font-size: 2.6rem;
+  font-weight: 800;
+  line-height: 1.05;
+  letter-spacing: -0.01em;
+  color: var(--c-navy);
+  font-variant-numeric: tabular-nums;
+}
+
+.ph-timer-label {
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--c-steel);
+}
+
+/* Last 10 seconds: orange, last 5: maroon and pulsing */
+.ph-timer.is-low .ph-timer-num { color: var(--c-orange); }
+.ph-timer.is-critical .ph-timer-num { color: var(--c-maroon); animation: ph-pulse 1s ease-in-out infinite; }
+
+@keyframes ph-pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+}
+
+.ph-objective {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  max-width: 100%;
+  margin-top: 2px;
+  padding: 6px 14px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--c-navy);
+  background: rgba(40, 50, 140, 0.08);
+  box-shadow: inset 0 0 0 1.5px rgba(40, 50, 140, 0.3);
+  border-radius: 999px;
+}
+
+.ph-obj-dot {
+  flex: none;
+  width: 14px; height: 14px;
+  background: var(--primary);
+  border-radius: 50%;
+  box-shadow: inset 0 0 0 2px #fff, 0 0 0 1px rgba(0, 0, 0, 0.15);
+}
+
+/* Viewfinder */
+.ph-viewfinder {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  margin: 6px 14px;
+  overflow: hidden;
+  background: linear-gradient(180deg, var(--secondary) 0%, #8fe9bd 100%);
+  border-radius: 18px;
+}
+
+.ph-viewfinder video {
+  position: absolute;
+  inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+}
+
+.ph-vf-msg {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  text-align: center;
+  color: var(--primary-dark);
+}
+
+.ph-corner {
+  position: absolute;
+  width: 34px; height: 34px;
+  border: 0 solid rgba(255, 255, 255, 0.95);
+  filter: drop-shadow(0 0 2px rgba(0, 0, 0, 0.35));
+}
+.ph-corner.tl { top: 16px; left: 16px; border-top-width: 4px; border-left-width: 4px; border-top-left-radius: 8px; }
+.ph-corner.tr { top: 16px; right: 16px; border-top-width: 4px; border-right-width: 4px; border-top-right-radius: 8px; }
+.ph-corner.bl { bottom: 16px; left: 16px; border-bottom-width: 4px; border-left-width: 4px; border-bottom-left-radius: 8px; }
+.ph-corner.br { bottom: 16px; right: 16px; border-bottom-width: 4px; border-right-width: 4px; border-bottom-right-radius: 8px; }
+
+/* Bottom area with the shutter */
+.ph-bottom {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 16px calc(16px + var(--safe-bottom));
+  background: var(--secondary-light);
+}
+
+.ph-shutter {
+  width: 76px; height: 76px;
+  padding: 0;
+  cursor: pointer;
+  background: var(--primary-dark);
+  border: 5px solid var(--white);
+  border-radius: 50%;
+  box-shadow: 0 0 0 3px var(--primary-dark), 0 6px 14px rgba(27, 115, 93, 0.35);
+  transition: transform 0.12s ease;
+}
+.ph-shutter:active { transform: scale(0.92); }
+.ph-shutter:focus-visible { outline: 3px solid var(--c-navy); outline-offset: 5px; }
+
+.ph-hint { font-size: 0.8rem; font-weight: 500; color: var(--ink-soft); }
+
+/* Confirmation */
+.ph-photo-wrap {
+  flex: 1;
+  min-height: 0;
+  margin: 6px 14px;
+  overflow: hidden;
+  background: var(--c-black);
+  border-radius: 18px;
+}
+
+.ph-photo {
+  display: block;
+  width: 100%; height: 100%;
+  object-fit: cover;
+}
+
+.ph-bottom-stack { gap: 10px; padding-top: 14px; background: var(--bg); }
+
+.ph-ask { font-size: 0.95rem; font-weight: 600; color: var(--ink-soft); }
+
+.ph-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  min-height: 54px;
+  padding: 12px 20px;
+  font-size: 1.05rem;
+  font-weight: 700;
+  cursor: pointer;
+  border: 2px solid var(--primary-dark);
+  border-radius: 999px;
+  transition: transform 0.12s ease, background 0.15s ease;
+}
+.ph-btn svg { width: 22px; height: 22px; }
+.ph-btn:active { transform: scale(0.97); }
+.ph-btn:focus-visible { outline: 3px solid var(--c-navy); outline-offset: 3px; }
+
+.ph-btn-primary { color: var(--white); background: var(--primary-dark); box-shadow: 0 8px 18px rgba(27, 115, 93, 0.3); }
+.ph-btn-ghost { color: var(--primary-dark); background: var(--white); }
+
+/* ==========================================================
+   4 + 5. SUBMITTED / TIME'S UP
+   ========================================================== */
+.ph-done {
+  align-items: center;
+  padding: calc(48px + var(--safe-top)) 22px calc(18px + var(--safe-bottom));
+  text-align: center;
+  background: linear-gradient(180deg, var(--secondary-light) 0%, var(--bg) 70%);
+}
+
+.ph-done-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 0;
+}
+
+.ph-done-tick {
+  display: grid;
+  place-items: center;
+  width: 84px; height: 84px;
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: var(--white);
+  background: var(--primary-dark);
+  border-radius: 50%;
+  box-shadow: 0 10px 24px rgba(27, 115, 93, 0.35);
+  animation: ph-pop 0.5s cubic-bezier(0.2, 0.9, 0.3, 1.3) both;
+}
+.ph-done-tick svg { width: 46px; height: 46px; }
+
+.ph-done-title {
+  margin-top: 18px;
+  font-size: 1.7rem;
+  font-weight: 800;
+  line-height: 1.2;
+}
+.ph-done-title:focus { outline: none; }
+
+.ph-done-time {
+  margin-top: 6px;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--c-steel);
+}
+
+.ph-done-thumb {
+  width: 132px;
+  aspect-ratio: 3 / 4;
+  margin-top: 20px;
+  object-fit: cover;
+  background: var(--c-black);
+  border: 4px solid var(--white);
+  border-radius: 14px;
+  box-shadow: 0 8px 20px rgba(14, 42, 35, 0.22);
+  transform: rotate(-2deg);
+}
+
+/* "Go back to your laptop" box */
+.ph-back {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  width: 100%;
+  margin-top: 26px;
+  padding: 16px 18px;
+  text-align: left;
+  background: var(--white);
+  border: 3px solid var(--primary-dark);
+  border-radius: 20px;
+  box-shadow: 0 10px 24px rgba(27, 115, 93, 0.18);
+}
+
+.ph-back-icon {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 62px; height: 62px;
+  color: var(--white);
+  background: var(--primary-dark);
+  border-radius: 16px;
+}
+.ph-back-icon svg { width: 40px; height: 40px; }
+
+.ph-back-title { font-size: 1.15rem; font-weight: 800; line-height: 1.25; }
+.ph-back-sub { margin-top: 4px; font-size: 0.92rem; line-height: 1.45; color: var(--ink-soft); }
+
+.ph-restart {
+  padding: 10px 18px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--muted);
+  cursor: pointer;
+  background: transparent;
+  border: none;
+  text-decoration: underline;
+}
+
+.ph-timeup .ph-done-tick { background: var(--c-maroon); box-shadow: 0 10px 24px rgba(113, 42, 28, 0.35); }
+.ph-timeup { background: linear-gradient(180deg, #FFEDDF 0%, var(--bg) 70%); }
+
+@keyframes ph-pop {
+  from { opacity: 0; transform: scale(0.5); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+/* Short phones: tighten things so nothing is cut off */
+@media (max-height: 700px) {
+  .ph-lock-time { font-size: 4.4rem; }
+  .ph-timer-num { font-size: 2.1rem; }
+  .ph-shutter { width: 64px; height: 64px; }
+  .ph-done-thumb { width: 104px; margin-top: 14px; }
+  .ph-done-tick { width: 68px; height: 68px; }
+  .ph-back { margin-top: 18px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}
